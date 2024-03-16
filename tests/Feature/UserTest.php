@@ -2,7 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
+use Database\Seeders\UserSeeder;
 use Tests\TestCase;
+
+use function PHPUnit\Framework\assertEquals;
+use function PHPUnit\Framework\assertNotNull;
 
 class UserTest extends TestCase
 {
@@ -56,5 +61,23 @@ class UserTest extends TestCase
                 "username" => "Username has already been taken"
             ]
         ]);
+    }
+
+    public function testLoginSuccess()
+    {
+        $this->seed(UserSeeder::class);
+        $this->post("/api/auth/login", [
+            "username" => "dhirojap",
+            "password" => "password123"
+        ])->assertStatus(200)
+        ->assertJson([
+            "data"=> [
+                "username" => "dhirojap",
+                "name" => "Dhiro Jap"
+            ]
+        ]);
+
+        $user = User::where("username","dhirojap")->first();
+        assertNotNull($user->token);
     }
 }
