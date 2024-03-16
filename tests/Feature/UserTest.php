@@ -42,4 +42,21 @@ class UserTest extends TestCase
             ]
         ]);
     }
+
+    public function testRegisterUsernameExists()
+    {
+        $this->testRegisterSuccess();
+        $this->post("/api/auth/register", [
+            "username" => "dhirojap",
+            "password" => "password123",
+            "name" => "Dhiro Jap"
+        ])->assertStatus(400)
+        ->assertJson([
+            "errors" => [
+                "username" => [
+                    "Username has already been taken"
+                ]
+            ]
+        ]);
+    }
 }
