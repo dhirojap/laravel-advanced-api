@@ -93,4 +93,18 @@ class UserTest extends TestCase
             ]
         ]);
     }
+
+    public function testLoginIncorrectPassword()
+    {
+        $this->seed(UserSeeder::class);
+        $this->post("/api/auth/login", [
+            "username" => "dhirojap",
+            "password" => "password123sss"
+        ])->assertStatus(401)
+        ->assertJson([
+            "errors" => [
+                "message" => "Username or password is incorrect"
+            ]
+        ]);
+    }
 }
