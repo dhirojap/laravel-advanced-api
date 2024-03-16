@@ -20,4 +20,26 @@ class UserTest extends TestCase
             ]
         ]);
     }
+
+    public function testRegisterFailed()
+    {
+        $this->post("/api/auth/register", [
+            "username" => "",
+            "password" => "",
+            "name" => ""
+        ])->assertStatus(400)
+        ->assertJson([
+            "errors" => [
+                "username" => [
+                    "The username field is required."
+                ],
+                "password" => [
+                    "The password field is required."
+                ],
+                "name" => [
+                    "The name field is required."
+                ]
+            ]
+        ]);
+    }
 }
