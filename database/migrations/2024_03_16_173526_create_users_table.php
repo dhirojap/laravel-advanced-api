@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string("name", 100)->nullable(false);
             $table->string("token", 100)->nullable()->unique("users_token_unique");
             $table->timestamps();
-
-            $table->foreign("user_id")->on("users")->references("id");
         });
     }
 

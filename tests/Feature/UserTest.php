@@ -53,9 +53,7 @@ class UserTest extends TestCase
         ])->assertStatus(400)
         ->assertJson([
             "errors" => [
-                "username" => [
-                    "Username has already been taken"
-                ]
+                "username" => "Username has already been taken"
             ]
         ]);
     }

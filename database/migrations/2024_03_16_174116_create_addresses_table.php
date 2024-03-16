@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string("postal_code", 10)->nullable();
             $table->unsignedBigInteger("contact_id")->nullable(false);
             $table->timestamps();
+
+            $table->foreign("contact_id")->on("contacts")->references("id");
         });
     }
 
