@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthApiMiddleware
@@ -29,6 +30,8 @@ class AuthApiMiddleware
         if (!$user) {
             $authenticate = false;
         }
+
+        Auth::login($user);
 
         if ($authenticate) {
             return $next($request);
