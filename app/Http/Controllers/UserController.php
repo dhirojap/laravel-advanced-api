@@ -66,7 +66,7 @@ class UserController extends Controller
         $data = $request->validated();
         $user = Auth::user();
 
-        if ($data['name']) {
+        if (isset($data['name'])) {
             $user->name = $data['name'];
         }
 
