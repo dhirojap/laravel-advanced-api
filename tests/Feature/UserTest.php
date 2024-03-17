@@ -133,4 +133,18 @@ class UserTest extends TestCase
             ]
         ]);
     }
+
+    public function testGetUserInvalidToken()
+    {
+        $this->seed(UserSeeder::class);
+        $this->get("api/auth/users/current", [
+            "Authorization" => "wrongtoken"
+        ])->assertStatus(401)
+        ->assertJson([
+            "errors" => [
+                "message" => "Unauthorized"
+            ]
+        ]);
+    }
+
 }
