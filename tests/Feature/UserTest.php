@@ -121,4 +121,16 @@ class UserTest extends TestCase
             ]
         ]);
     }
+
+    public function testGetUserFailed()
+    {
+        $this->seed(UserSeeder::class);
+        $this->get("api/auth/users/current")
+        ->assertStatus(401)
+        ->assertJson([
+            "errors" => [
+                "message" => "Unauthorized"
+            ]
+        ]);
+    }
 }
