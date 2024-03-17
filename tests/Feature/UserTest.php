@@ -107,4 +107,18 @@ class UserTest extends TestCase
             ]
         ]);
     }
+
+    public function testGetUser()
+    {
+        $this->seed(UserSeeder::class);
+        $this->get("api/auth/users/current", [
+            "Authorization" => "token"
+        ])->assertStatus(200)
+        ->assertJson([
+            "data" => [
+                "username" => "dhirojap",
+                "name"=> "Dhiro Jap"
+            ]
+        ]);
+    }
 }
