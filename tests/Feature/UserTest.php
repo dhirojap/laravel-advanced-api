@@ -168,4 +168,26 @@ class UserTest extends TestCase
         $newUser = User::where("username", "dhirojap")->first();
         self::assertNotEquals($oldUser->password, $newUser->password);
     }
+
+    public function testUpdateNameSuccess()
+    {
+        $this->seed(UserSeeder::class);
+        $oldUser = User::where("username", "dhirojap")->first();
+
+        $this->patch("api/auth/users/current", [
+            "name" => "TestingNew"
+        ],
+        [
+            "Authorization" => "token"
+        ])->assertStatus(200)
+        ->assertJson([
+            "data" => [
+                "username" => "dhirojap",
+                "name" => "TestingNew"
+            ]
+        ]);
+
+        $newUser = User::where("username", "dhirojap")->first();
+        self::assertNotEquals($oldUser->name, $newUser->name);
+    }
 }
