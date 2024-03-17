@@ -190,4 +190,23 @@ class UserTest extends TestCase
         $newUser = User::where("username", "dhirojap")->first();
         self::assertNotEquals($oldUser->name, $newUser->name);
     }
+
+    public function testUpdateFailed()
+    {
+        $this->seed(UserSeeder::class);
+
+        $this->patch("api/auth/users/current", [
+            "name" => "TestingNewwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaafwafawgwagawgqw235235agfasgasgawggggggggwawgwagwagwagawgwagwaga"
+        ],
+        [
+            "Authorization" => "token"
+        ])->assertStatus(400)
+        ->assertJson([
+            "errors" => [
+                "name" => [
+                    "The name field must not be greater than 100 characters."
+                ]
+            ]
+        ]);
+    }
 }
