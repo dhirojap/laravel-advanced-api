@@ -223,4 +223,17 @@ class UserTest extends TestCase
         $user = User::where('username', 'dhirojap')->first();
         self::assertNull($user->token);
     }
+
+    public function testLogoutFailed()
+    {
+        $this->seed(UserSeeder::class);
+        $this->delete('api/auth/logout', headers: [
+            "Authorization" => "WrongToken"
+        ])->assertStatus(401)
+        ->assertJson([
+            "errors" => [
+                "message" => "Unauthorized"
+            ]
+        ]);
+    }
 }
